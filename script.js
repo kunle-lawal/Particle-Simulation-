@@ -1,3 +1,5 @@
+/*fix the background color random changing with hover function on the #startSimulationtag*/
+
 //setup
 var canvas = document.getElementById("canvas");
 var context = canvas.getContext("2d");
@@ -14,6 +16,33 @@ function fast(){
 
 var colorC= Math.random();
 
+function ranColor() {
+        var num = Math.floor(Math.random() * Math.pow(2,24));
+        return '#' + ('00000' + num.toString(16)).substr(-6);
+    }
+    
+//background-color random change
+bgColor = function(){
+    $("body").css('background-color', ranColor());  
+};
+
+function reset() {
+            
+}
+
+//start simulation button
+$(document).ready(function(){
+    $("#startSimulation").click(function(){
+        $("#startSimulation").fadeTo("slow", 0);
+        $("#canvas").fadeTo("slow", 1);
+        $("#control").fadeTo("slow", 1);
+        $("#control2").fadeTo("slow", 1);
+        $("#control3").fadeTo("slow", 1);
+        $("#control4").fadeTo("slow", 1);
+        $("#control5").fadeTo("slow", 1);
+        
+    });    
+});
 
 function gravity(){
     ball2.ay= 10000/fps;
@@ -96,8 +125,7 @@ function play(){
         
         ball7.vx = randNum( 300, canvas.width - 600);
         ball7.vy = randNum( 300, canvas.height - 600 );    
-        
-        ball2.ay= 0;
+    ball2.ay= 0;
     
     ball3.ay= 0;
     
@@ -109,6 +137,20 @@ function play(){
     
     ball7.ay= 0;
 }
+
+function changeColor(){
+     $(document).ready(function(){
+        $("#control5").click(function(){
+            $("body").css("background-color", bgColor());
+        });
+    });  
+}
+
+//change background-color every second
+setInterval(function(){
+    $("body").css('background-color', ranColor());
+}, 10*1000)
+
 
 function Balls(vx, vy, ax, ay, radius, colorC){
     this.x = randNum( 30, canvas.width - 30 ),
@@ -137,20 +179,22 @@ function Balls(vx, vy, ax, ay, radius, colorC){
                 if ((this.x - this.radius) < 0 ) {
             this.x = this.radius;
             this.vx = -this.vx;
+            this.color = ranColor();
         }
         if ((this.x + this.radius) > canvas.width ) {
             this.x = canvas.width - this.radius;
             this.vx = -this.vx;
+            this.color = ranColor();
         }
         if ((this.y - this.radius) < 0) {
             this.y = this.radius;
             this.vy = -this.vy;
+            this.color = ranColor();
         }
         if ((this.y + this.radius) > canvas.height ) {
             this.y = canvas.height - this.radius;
             this.vy = -this.vy;
         }
-        
         
     };
 }
@@ -195,6 +239,27 @@ function animate(){
 }
 window.setInterval(animate, 1000/fps);
 
+//fast forward and rewind functions :D
+$(document).ready(function(){
+    $('#control').click(function(){
+         fast();
+    });
+    $('#control2').click(function(){
+        pause();
+    });
+    $('#control3').click(function(){
+        play();    
+    });
+    $('#control4').click(function(){
+        gravity();  
+    });
+    $('canvas').click(function(){
+        canvas.width = 600;
+        canvas.height = 600;
+    });
+    changeColor(); 
+});
+
 window.onkeydown = function(e){
     e = e || window.event;
     var code = e.keyCode;
@@ -228,24 +293,6 @@ window.onkeyup = function(e){
     down:40
     canvas.height += 10;
 }
-}; 
+};
 
-//fast forward and rewind functions :D
-$(document).ready(function(){
-    $('#control').click(function(){
-         fast();
-    });
-    $('#control2').click(function(){
-        pause();
-    });
-    $('#control3').click(function(){
-        play();    
-    });
-    $('#control4').click(function(){
-        gravity();  
-    });
-    $('canvas').click(function(){
-        canvas.width = 600;
-        canvas.height = 600;
-    });
-}); 
+
