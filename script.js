@@ -151,7 +151,7 @@ setInterval(function(){
     $("body").css('background-color', ranColor());
 }, 10*1000)
 
-
+//creation of the balls
 function Balls(vx, vy, ax, ay, radius, colorC){
     this.x = randNum( 30, canvas.width - 30 ),
     this.y = randNum( 30, canvas.height - 30 ),
