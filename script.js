@@ -7,7 +7,13 @@ var context = canvas.getContext("2d");
 
 var fps = 30;
 
+//prototype function to determine the number of seconds.
+var seconds = function(placeHolder){
+    placeHolder * 1000;
+    return seconds;
+}
 
+var sec = 1000;
 //makes balls move faster
 function fast(){
     window.setInterval(animate, 1000/fps);     
@@ -17,17 +23,21 @@ function fast(){
 
 //makes all of the balls volocity downwards 
 function gravity(){
-    ball2.ay = 10000/fps;
+    force = setInterval(function(){
+
+        ball2.ay += 10000/fps;
     
-    ball3.ay = 10000/fps;
+        ball3.ay += 10000/fps;
     
-    ball4.ay = 10000/fps;
+        ball4.ay += 10000/fps;
     
-    ball5.ay = 10000/fps;
+        ball5.ay += 10000/fps;
     
-    ball6.ay = 10000/fps;
+        ball6.ay += 10000/fps;
     
-    ball7.ay = 10000/fps;
+        ball7.ay += 10000/fps;
+        //this is kind 
+    }, sec);
     
     ball2.vx = 0;
     ball2.vy = 0;
@@ -83,6 +93,8 @@ function pause(){
 
 //resets the balls movemennt in the random direction (so far just moves right downwards)
 function play(){
+        
+
         ball2.vx = randNum( 300, canvas.width - 600);
         ball2.vy = randNum( 300, canvas.height - 600 );
         
@@ -131,6 +143,10 @@ $(document).ready(function(){
     });    
 });
 
+//change background-color every second.
+setBg = setInterval(function(){
+    $("body").css('background-color', ranColor());
+}, 5*1000)
 
 //fast forward and rewind functions :D
 $(document).ready(function(){
@@ -139,17 +155,33 @@ $(document).ready(function(){
     });
     $('#control2').click(function(){
         pause();
+        clearInterval(force);
+        clearInterval(setBg)
     });
     $('#control3').click(function(){
         play();    
+        clearInterval(force);
+        setInterval(function(){
+        }, 1 * 1000);
     });
     $('#control4').click(function(){
         gravity();  
+        setInterval(function(){
+            force()
+        }, 1 * 1000)
     });
     $('canvas').click(function(){
         canvas.width = 600;
         canvas.height = 600;
     });
+    //when the last button is click the background should change.
+function changeColor(){
+     $(document).ready(function(){
+        $("#control5").click(function(){
+            $("body").css("background-color", bgColor());
+        });
+    });  
+}
     changeColor(); 
 });
 
@@ -169,19 +201,7 @@ bgColor = function(){
     $("body").css('background-color', ranColor());  
 };
 
-//change background-color every second.
-setInterval(function(){
-    $("body").css('background-color', ranColor());
-}, 5*1000)
 
-//when the last button is click the background should change.
-function changeColor(){
-     $(document).ready(function(){
-        $("#control5").click(function(){
-            $("body").css("background-color", bgColor());
-        });
-    });  
-}
 
 //creation of the balls
 function Balls(vx, vy, ax, ay, radius, color){
