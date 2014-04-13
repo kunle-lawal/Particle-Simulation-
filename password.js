@@ -1,15 +1,21 @@
 //need to fix password function    
-var passwor = function(){
-    right = "Kunle";
-    wrong = "";
+function password(){
+    right = ["Kunle"];
     wrong = true;
-    var passAsk = prompt("What is the password");
     while (wrong){
-        passAsk();    
-    } if (passAsk == right){
+    var passAsk = prompt("What is the password?");
+        var patt1 = new RegExp(passAsk);
+    if (patt1.test(right) && passAsk !== null && passAsk !== ""){
         alert("You may proceed"); 
         wrong = false;
-    } 
-    wrong = false;
-};    
+    } else {
+        var addNew = confirm("Do you want to make a new password");
+        
+        if(addNew) {
+            var toNew = prompt("What do you want this new password to be called?");
+            right.push(toNew);
+        }
+    }
+} 
+}
 password();
